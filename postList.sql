@@ -1,0 +1,5 @@
+﻿CREATE PROCEDURE postList
+AS
+BEGIN
+SELECT * FROM Posts
+end

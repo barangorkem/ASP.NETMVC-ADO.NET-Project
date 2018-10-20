@@ -1,0 +1,5 @@
+﻿CREATE PROCEDURE userAuth(@UserName VARCHAR(20))
+AS
+BEGIN
+SELECT Auth FROM Users WHERE UserName=@UserName
+END

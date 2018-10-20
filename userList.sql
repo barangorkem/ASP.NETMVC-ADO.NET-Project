@@ -1,0 +1,5 @@
+﻿CREATE PROCEDURE userList
+AS
+BEGIN
+SELECT * FROM Users
+END

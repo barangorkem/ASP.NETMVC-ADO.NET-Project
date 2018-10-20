@@ -1,0 +1,10 @@
+﻿CREATE TABLE Comments(
+CommentId INT PRIMARY KEY NOT NULL IDENTITY(1,1),
+CommentContent VARCHAR(max) NOT NULL,
+CommentDate DATETIME NOT NULL,
+UserId INT NOT NULL,
+PostId INT NOT NULL,
+
+CONSTRAINT comments_userid_fk FOREIGN KEY(UserId) REFERENCES Users(UserId),
+CONSTRAINT comments_postid_fk FOREIGN KEY(PostId) REFERENCES Posts(PostId)
+)
