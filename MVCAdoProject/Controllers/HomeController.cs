@@ -12,6 +12,7 @@ namespace MVCAdoProject.Controllers
     {
         // GET: Home
         PostsRepository postsRepository = new PostsRepository();
+        MyRepository myRepository = new MyRepository();
         public ActionResult Index()
         {
            
@@ -24,5 +25,18 @@ namespace MVCAdoProject.Controllers
             Posts post = postsRepository.FindPosts(id);
             return View(post);
         }
+        [HttpPost]
+        public bool DoComment(Comments comments)
+        {
+            myRepository.doComments(comments, User.Identity.Name);
+            return true;
+        }
+        [HttpGet]
+        public PartialViewResult GetComments(int PostId)
+        {
+            List<PostComments> postComments = myRepository.getComments(PostId);
+            return PartialView(postComments);
+        }
+      
     }
 }

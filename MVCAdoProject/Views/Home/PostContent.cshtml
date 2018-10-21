@@ -36,54 +36,10 @@
             
           
             <hr>
-
-            <!-- Comments Form -->
-            <div class="card my-4">
-                <h5 class="card-header">Leave a Comment:</h5>
-                <div class="card-body">
-                    <form>
-                        <div class="form-group">
-                            <textarea class="form-control" rows="3"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
+            <div id="GetComments">
+                @Html.Action("GetComments", "Home", new { PostId = Model.PostId.ToString() })
             </div>
-
-            <!-- Single Comment -->
-            <div class="media mb-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                    <h5 class="mt-0">Commenter Name</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                </div>
-            </div>
-
-            <!-- Comment with nested comments -->
-            <div class="media mb-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                    <h5 class="mt-0">Commenter Name</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-
-                    <div class="media mt-4">
-                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                        <div class="media-body">
-                            <h5 class="mt-0">Commenter Name</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-                    </div>
-
-                    <div class="media mt-4">
-                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                        <div class="media-body">
-                            <h5 class="mt-0">Commenter Name</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+           
 
         </div>
 
@@ -150,5 +106,50 @@
 
     </div>
     <!-- /.row -->
+<script>
+    function doComment()
+    {
+        debugger
+      var commentData = {
+            CommentContent: document.getElementById("CommentContent").value,
+            PostId:@Model.PostId
+};
+        
+        $.ajax({
+            url: '/Home/DoComment', // try to use Url Helper when possible
+            type: 'POST', // use Get for [HttpGet] action or POST for [HttpPost]
+            //contentType: 'application/json', not needed
+            //dataType: 'jsonp', jsonp is for sending to a site other than the current one.. 
+            data: JSON.stringify(commentData), // no need to stringify
+            success: function (result) {
+                debugger
+                
+                if (result == "True") {
+                    debugger
+                    $.ajax({
+                      
+                        url: "/Home/GetComments",
+                        method: "GET",
+                        contentType: "application/json",
+                        data: { PostId: @Model.PostId },
+                        success: function (response) {
+                            debugger
+
+                            document.getElementById("GetComments").innerHTML = response;
+
+                        },
+                        error: function (response) {
+                            debugger
+                            alert("error!");  //
+                        }
+                    });
+                } else {
+                    $QuickLoginErrors.text(result);
+                }
+            },
+            contentType: 'application/json'
+        });
+    }
+</script>
 
 

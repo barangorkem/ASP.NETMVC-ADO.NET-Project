@@ -1,5 +1,21 @@
 ﻿@model MVCAdoProject.Models.Users
 
+
+@{
+    List<SelectListItem> listAuth = new List<SelectListItem>();
+    listAuth.Add(new SelectListItem
+    {
+        Text = "User",
+        Value = "User"
+    });
+    listAuth.Add(new SelectListItem
+    {
+        Text = "Admin",
+        Value = "Admin",
+        Selected = true
+    });
+}
+
 @{
     ViewBag.Title = "Create";
 }
@@ -7,10 +23,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Users</h4>
         <hr />
@@ -50,11 +66,11 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Auth, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Auth, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.Auth, listAuth, "-- Select Status --")
                 @Html.ValidationMessageFor(model => model.Auth, "", new { @class = "text-danger" })
             </div>
         </div>
-        
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />

@@ -51,5 +51,70 @@ namespace MVCAdoProject.Repository
             }
             return Auth;
         }
+        public int userId(string UserName)
+        {
+            int id = 0;
+            SqlCommand command = new SqlCommand("userId", con);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@UserName", UserName);
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            DataTable dt = new DataTable();
+            con.Open();
+            da.Fill(dt);
+            con.Close();
+            foreach (DataRow dr in dt.Rows)
+            {
+                id = Convert.ToInt32(dr["UserId"]);
+            }
+            return id;
+        }
+        public void doComments(Comments comments,string UserName)
+        {
+            
+            SqlCommand command = new SqlCommand("commentAdd", con);
+            comments.UserId = userId(UserName);
+            comments.CommentDate = DateTime.Now;
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@CommentContent", comments.CommentContent);
+            command.Parameters.AddWithValue("@CommentDate", comments.CommentDate);
+            command.Parameters.AddWithValue("@UserId", comments.UserId);
+            command.Parameters.AddWithValue("@PostId", comments.PostId);
+            con.Open();
+            command.ExecuteNonQuery();
+            con.Close();
+
+        }
+        public List<PostComments> getComments(int id)
+        {
+            SqlCommand command = new SqlCommand("postComment", con);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@PostId",id);
+            List<PostComments> postComments = new List<PostComments>();
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            DataTable dt = new DataTable();
+            con.Open();
+            da.Fill(dt);
+            con.Close();
+            foreach (DataRow dr in dt.Rows)
+            {
+
+                postComments.Add(
+
+                    new PostComments
+                    {
+                        CommentId = Convert.ToInt32(dr["CommentId"]),
+                        CommentContent = Convert.ToString(dr["CommentContent"]),
+                        CommentDate = Convert.ToDateTime(dr["CommentDate"]),
+                        UserName = Convert.ToString(dr["UserName"]),
+                        PostId= Convert.ToInt32(dr["PostId"])
+                    }
+
+
+                    );
+
+
+            }
+            return postComments;
+        }
     }
 }
