@@ -1,0 +1,49 @@
+﻿@model IEnumerable<MVCAdoProject.Models.Posts>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PostTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostContent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostImage)
+        </th>
+ 
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+
+    
+
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostTitle).ToString().Substring(0, (item.PostTitle.Length > 10) ? 10 : item.PostTitle.Length)...
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostContent).ToString().Substring(0, (item.PostContent.Length > 10) ? 10 : item.PostContent.Length)...
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostImage)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { postId = item.PostId }) |
+            @Html.ActionLink("Details", "Details", new {  postId=item.PostId  }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.PostId })
+        </td>
+    </tr>
+}
+
+</table>

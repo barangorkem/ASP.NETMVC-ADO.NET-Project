@@ -20,6 +20,7 @@ namespace MVCAdoProject.Models
         public string PostImage { get; set; }
 
         public virtual  ICollection<Comments> Comments { get; set; }
+        public virtual ICollection<PostCategories> PostCategories { get; set; }
 
     }
 }

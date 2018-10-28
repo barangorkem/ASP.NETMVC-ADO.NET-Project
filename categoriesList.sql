@@ -1,0 +1,5 @@
+﻿CREATE PROCEDURE categoriesList
+AS
+BEGIN
+SELECT * FROM Categories
+END
